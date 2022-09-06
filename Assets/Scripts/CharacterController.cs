@@ -21,6 +21,8 @@ public class CharacterController : MonoBehaviour
 
     private float _velocityMultiplierGround = 2;
 
+    private bool _jumpTriggered = false;
+
     private void Awake() {
         _rb = GetComponent<Rigidbody2D>();
         _initialGravityScale = _rb.gravityScale;
@@ -50,9 +52,17 @@ public class CharacterController : MonoBehaviour
     }
 
     private void _setJumpInput() {
-        if (Input.GetButton("Jump") && _isGrounded()) {
+        if (Input.GetButton("Jump") && _isGrounded() && ! _jumpTriggered) {
             _rb.velocity = new Vector2(_rb.velocity.x, 0);
             _rb.AddForce(new Vector2(0, _jumpForce));
+        }
+
+        if (Input.GetButton("Jump")) {
+            if (! _jumpTriggered) {
+                _jumpTriggered = true;
+            }
+        } else {
+            _jumpTriggered = false;
         }
 
         if (Input.GetButton("Jump") && _rb.velocity.y >= 0) {
