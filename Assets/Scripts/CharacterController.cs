@@ -52,13 +52,11 @@ public class CharacterController : MonoBehaviour
     }
 
     private void _setJumpInput() {
-        if (Input.GetButton("Jump") && _isGrounded() && ! _jumpTriggered) {
-            _rb.velocity = new Vector2(_rb.velocity.x, 0);
-            _rb.AddForce(new Vector2(0, _jumpForce));
-        }
-
         if (Input.GetButton("Jump")) {
-            if (! _jumpTriggered) {
+            if (! _jumpTriggered && _isGrounded()) {
+                _rb.velocity = new Vector2(_rb.velocity.x, 0);
+                _rb.AddForce(new Vector2(0, _jumpForce));
+                
                 _jumpTriggered = true;
             }
         } else {
