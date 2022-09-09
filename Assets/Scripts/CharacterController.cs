@@ -8,24 +8,23 @@ public class CharacterController : MonoBehaviour
     [SerializeField] private float _force = 10f;
     [SerializeField] private float _maxSpeed = 20f;
     [SerializeField] private float _jumpForce = 20f;
-    [SerializeField] private float _jumpGravityScale = 0.2f;
+    [SerializeField] private float _jumpContinuationForce = 0f;
+
+    [SerializeField] private float _maxJumpDuration = 0f;
     [SerializeField] private float _linearDragAir = 2f;
-    [SerializeField] private float _linearDragGround = 5f;
+    private float _velocityMultiplierGround = 2;
 
     [SerializeField] private Transform _foot1Transform;
     [SerializeField] private Transform _foot2Transform;
 
     private Rigidbody2D _rb;
 
-    private float _initialGravityScale;
-
-    private float _velocityMultiplierGround = 2;
-
     private bool _jumpTriggered = false;
+
+    private float _jumpStartTime = 0;
 
     private void Awake() {
         _rb = GetComponent<Rigidbody2D>();
-        _initialGravityScale = _rb.gravityScale;
     }
 
     private void Update() {
@@ -51,22 +50,26 @@ public class CharacterController : MonoBehaviour
         }
     }
 
+    private float _secondsSinceStartJump() => Time.fixedTime - _jumpStartTime;
+
     private void _setJumpInput() {
-        if (Input.GetButton("Jump")) {
-            if (! _jumpTriggered && _isGrounded()) {
-                _rb.velocity = new Vector2(_rb.velocity.x, 0);
-                _rb.AddForce(new Vector2(0, _jumpForce));
-                
-                _jumpTriggered = true;
-            }
-        } else {
+        if (Input.GetButton("Jump") && _isGrounded() && ! _jumpTriggered) {
+            _rb.velocity = new Vector2(_rb.velocity.x, 0);
+            _rb.AddForce(new Vector2(0, _jumpForce));
+            
+            _jumpTriggered = true;
+
+            _jumpStartTime = Time.fixedTime;
+        }
+
+        if (! Input.GetButton("Jump")) {
             _jumpTriggered = false;
         }
 
-        if (Input.GetButton("Jump") && _rb.velocity.y >= 0) {
-            _rb.gravityScale = _jumpGravityScale;
-        } else {
-            _rb.gravityScale = _initialGravityScale;
+        float secondsSinceStartJump = _secondsSinceStartJump();
+
+        if (Input.GetButton("Jump") && secondsSinceStartJump <= _maxJumpDuration && _rb.velocity.y > 0) {
+            _rb.AddForce(new Vector2(0, Mathf.Lerp(_jumpContinuationForce, 0, secondsSinceStartJump / _maxJumpDuration)));
         }
     }
 
