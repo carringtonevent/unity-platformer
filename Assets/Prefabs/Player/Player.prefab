@@ -12,7 +12,9 @@ GameObject:
   - component: {fileID: 7558930710264376478}
   - component: {fileID: 7558930710264376476}
   - component: {fileID: 7558930710264376474}
-  - component: {fileID: 3723001134396542959}
+  - component: {fileID: 4365849068586520352}
+  - component: {fileID: 444279680893244289}
+  - component: {fileID: 3009878509655591891}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -130,8 +132,8 @@ MonoBehaviour:
   _linearDragAir: 2
   _foot1Transform: {fileID: 7558930710704830421}
   _foot2Transform: {fileID: 7558930711531073216}
---- !u!60 &3723001134396542959
-PolygonCollider2D:
+--- !u!61 &4365849068586520352
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -139,11 +141,11 @@ PolygonCollider2D:
   m_GameObject: {fileID: 7558930710264376481}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 6200000, guid: 5e8d35efc7a5e37498b63ea869b04e39, type: 2}
+  m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 1, y: 1}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -153,16 +155,38 @@ PolygonCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 0.1, y: 2}
-      - {x: 1.9, y: 2}
-      - {x: 2, y: 1.9}
-      - {x: 2, y: 0.1}
-      - {x: 1.9, y: 0}
-      - {x: 0.1, y: 0}
-      - {x: 0, y: 0.1}
-      - {x: 0, y: 1.9}
+  serializedVersion: 2
+  m_Size: {x: 2, y: 2}
+  m_EdgeRadius: 0
+--- !u!114 &444279680893244289
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7558930710264376481}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 051ebc509ad6359dd951ab1d4eeb282f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _health: 1
+  _spawnpoint: {fileID: 0}
+  _startHealth: 10
+  _damageJumpForce: 600
+--- !u!114 &3009878509655591891
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7558930710264376481}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f31c1adf3ac7f266983c7a9e672e70d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _yOfVoid: -100
 --- !u!1 &7558930710704830420
 GameObject:
   m_ObjectHideFlags: 0
