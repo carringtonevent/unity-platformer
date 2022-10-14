@@ -5,30 +5,37 @@ using UnityEngine;
 
 public abstract class Mortality : MonoBehaviour
 {
-    [SerializeField] protected float _health = 1f;
+    [SerializeField] protected int _health = 1;
 
     protected abstract void death();
 
-    protected virtual float onDamage(float amount) => amount;
+    protected virtual int onDamage(int amount) => amount;
+
+    protected event Action<double> onHealthChange;
 
     public void kill() {
-        _health = 0;
+        Health = 0;
         
         death();
     }
 
-    public void damage(float amount) {
-        _health -= onDamage(amount);
+    public void damage(int amount) {
+        Health -= onDamage(amount);
 
-        if(_health <= 0) {
-            _health = 0;
+        if(Health <= 0) {
+            Health = 0;
 
             death();
         }
     }
 
-    public void heal(float amount) => _health += amount;
+    public void heal(int amount) => Health += amount;
 
-    public float Health { get => _health; set => _health = value; }
-    
+    public int Health {
+        get => _health;
+        set {
+            _health = value;
+            onHealthChange?.Invoke(_health);
+        }
+    }
 }
